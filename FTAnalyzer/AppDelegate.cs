@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using AppKit;
 using Foundation;
 using FTAnalyzer.Exports;
 using FTAnalyzer.Utilities;
 using FTAnalyzer.ViewControllers;
+using Plugin.InAppBilling;
+using Plugin.InAppBilling.Abstractions;
 
 namespace FTAnalyzer
 {
@@ -16,7 +19,7 @@ namespace FTAnalyzer
     {
         bool _documentOpening;
         public GedcomDocument Document { get; set; }
-        public GedcomDocumentViewController DocumentViewController { get; set;  }
+        public GedcomDocumentViewController DocumentViewController { get; set; }
         NSWindow Window { get; set; }
         public NSViewController CurrentViewController { get; set; }
         public NSWindow CurrentWindow { get; set; }
@@ -91,7 +94,7 @@ namespace FTAnalyzer
 
         public void CloseAllSubWindows()
         {
-            foreach(NSWindow openWindow in NSApplication.SharedApplication.Windows)
+            foreach (NSWindow openWindow in NSApplication.SharedApplication.Windows)
             {
                 if (openWindow.Title.StartsWith("Facts", StringComparison.Ordinal))
                     openWindow.Close();
@@ -118,8 +121,8 @@ namespace FTAnalyzer
             {
                 await Analytics.CheckProgramUsageAsync();
             }
-            catch (Exception e) 
-                { Console.WriteLine(e.Message); }
+            catch (Exception e)
+            { Console.WriteLine(e.Message); }
         }
 
         partial void ExportIndividuals(NSObject sender)
@@ -287,7 +290,7 @@ namespace FTAnalyzer
 
         partial void ExportDNAGedcom(NSObject sender)
         {
-            if(Document != null)
+            if (Document != null)
                 DNA_GEDCOM.Export();
             else
                 NoDocumentLoaded();
@@ -305,15 +308,15 @@ namespace FTAnalyzer
             {
                 if (CurrentViewController is IPrintViewController)
                     Document.PrintDocument(CurrentViewController as IPrintViewController);
-                else if(CurrentViewController is GedcomDocumentViewController)
+                else if (CurrentViewController is GedcomDocumentViewController)
                 {
                     ((GedcomDocumentViewController)CurrentViewController).Print(sender);
                 }
                 else
                     UIHelpers.ShowMessage("Sorry Printing Not currently available for this view");
 
-            } 
-            else if(keyViewController is PeopleViewController)
+            }
+            else if (keyViewController is PeopleViewController)
             {
                 ((PeopleViewController)keyViewController).Print(sender);
             }
@@ -339,7 +342,7 @@ namespace FTAnalyzer
         partial void ViewOnlineManual(NSObject sender)
         {
             Analytics.TrackAction(Analytics.MainFormAction, Analytics.OnlineManualEvent);
-            HttpUtility.VisitWebsite("http://www.ftanalyzer.com");
+            HttpUtility.VisitWebsite("http://www.ftanalyzer.com/Documentation");
         }
 
         partial void ViewOnlineGuides(NSObject sender)
@@ -377,6 +380,44 @@ namespace FTAnalyzer
         {
             Analytics.TrackAction(Analytics.MainFormAction, Analytics.WhatsNewEvent);
             HttpUtility.VisitWebsite("http://mac.ftanalyzer.com/Whats%20New%20in%20this%20Release");
+        }
+
+        partial void Donate1Clicked(NSObject sender) => MakeDonation("Donation1");
+        partial void Donate2Clicked(NSObject sender) => MakeDonation("Donation2");
+        partial void Donate5Clicked(NSObject sender) => MakeDonation("Donation5");
+        partial void Donate10Clicked(NSObject sender) => MakeDonation("Donation10");
+
+        void MakeDonation(string productID)
+        {
+            InvokeOnMainThread(async () =>
+            {
+                try
+                {
+                    var connected = await CrossInAppBilling.Current.ConnectAsync();
+                    if (!connected)
+                    {
+                        //couldn't connect
+                        UIHelpers.ShowMessage($"Unable to connect to Apple Server to process donation. Please try later!");
+                        return;
+                    }
+                    var purchase = await CrossInAppBilling.Current.PurchaseAsync(productID, ItemType.InAppPurchase, "apppayload");
+                    if (purchase == null)
+                    {
+                        UIHelpers.ShowMessage("Donation failed to process. please try later.");
+                        return;
+                    }
+                    UIHelpers.ShowMessage("Thank you so much for your kind donation. It is much appreciated.");
+                }
+                catch (Exception e)
+                {
+                    UIHelpers.ShowMessage($"Unable to make donation error was: {e.Message}");
+                    return;
+                }
+                finally
+                {
+                    await CrossInAppBilling.Current.DisconnectAsync();
+                }
+            });
         }
 
         void NoDocumentLoaded() => UIHelpers.ShowMessage("No document currently loaded.");

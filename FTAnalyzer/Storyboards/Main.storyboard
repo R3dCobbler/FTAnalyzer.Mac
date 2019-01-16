@@ -442,7 +442,7 @@
                                         <menuItem title="Online Guides to Using FTAnalyzer" id="BrV-63-D5S">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="ViewOnlineGUides:" target="Voe-Tx-rLC" id="n8o-qt-7yR"/>
+                                                <action selector="ViewOnlineGuides:" target="Voe-Tx-rLC" id="ZHb-eH-6zF"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Report an Issue" id="YVC-Ml-gaT">
@@ -464,6 +464,37 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="A6m-NN-DqR"/>
+                                        <menuItem title="Make a Donation" id="wZ4-vg-wQh">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Make a Donation" id="meg-WX-YrV">
+                                                <items>
+                                                    <menuItem title="Donate £1" id="cUm-X8-6Od">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="Donate1Clicked:" target="Voe-Tx-rLC" id="5OI-IK-sQY"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Donate £2" id="yFj-Qa-Ocs">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="Donate2Clicked:" target="Voe-Tx-rLC" id="pyR-W9-1IU"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Donate £5" id="PPK-e6-kRB">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="Donate5Clicked:" target="Voe-Tx-rLC" id="pCA-DU-6eu"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Donate £10" id="Ibk-pd-8jT">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="Donate10Clicked:" target="Voe-Tx-rLC" id="7N7-wx-MJj"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
                                         <menuItem title="Privacy Policy" id="kg5-SM-GW4">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -492,6 +523,8 @@
                 </application>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
                     <connections>
+                        <outlet property="Donate10Clicked" destination="Ibk-pd-8jT" id="3Ym-x3-KBZ"/>
+                        <outlet property="Donate5Clicked" destination="PPK-e6-kRB" id="fcj-Bc-4gw"/>
                         <outlet property="ExportDNAGedcom" destination="KuJ-jx-hXL" id="bOd-7T-UAA"/>
                         <outlet property="ExportDNAGedcomMenu" destination="KuJ-jx-hXL" id="WjP-0W-0bW"/>
                         <outlet property="ExportDataErrorsMenu" destination="hSO-uk-2TQ" id="6nT-Kn-84i"/>

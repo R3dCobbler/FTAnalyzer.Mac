@@ -144,6 +144,7 @@
     <Folder Include="Assets.xcassets\CensusSettingsIcon.imageset\" />
     <Folder Include="ViewControllers\Interfaces\" />
     <Folder Include="Views\" />
+    <Folder Include="Assets.xcassets\FacebookIcon.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

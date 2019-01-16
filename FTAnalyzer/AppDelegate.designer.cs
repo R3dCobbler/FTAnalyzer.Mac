@@ -44,6 +44,21 @@ namespace FTAnalyzer
 		[Outlet]
 		AppKit.NSMenuItem PrintMenu { get; set; }
 
+		[Action ("Donate10Clicked:")]
+		partial void Donate10Clicked (Foundation.NSObject sender);
+
+		[Action ("Donate1Clicked:")]
+		partial void Donate1Clicked (Foundation.NSObject sender);
+
+		[Action ("Donate2Clicked:")]
+		partial void Donate2Clicked (Foundation.NSObject sender);
+
+		[Action ("Donate5Clicked:")]
+		partial void Donate5Clicked (Foundation.NSObject sender);
+
+		[Action ("DonationClicked:")]
+		partial void DonationClicked (Foundation.NSObject sender);
+
 		[Action ("ExportDataErrors:")]
 		partial void ExportDataErrors (Foundation.NSObject sender);
 
@@ -100,24 +115,14 @@ namespace FTAnalyzer
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (PageSetupMenu != null) {
-				PageSetupMenu.Dispose ();
-				PageSetupMenu = null;
+			if (ExportDataErrorsMenu != null) {
+				ExportDataErrorsMenu.Dispose ();
+				ExportDataErrorsMenu = null;
 			}
 
-			if (PrintMenu != null) {
-				PrintMenu.Dispose ();
-				PrintMenu = null;
-			}
-
-			if (ExportIndividualsMenu != null) {
-				ExportIndividualsMenu.Dispose ();
-				ExportIndividualsMenu = null;
-			}
-
-			if (ExportFamiliesMenu != null) {
-				ExportFamiliesMenu.Dispose ();
-				ExportFamiliesMenu = null;
+			if (ExportDNAGedcomMenu != null) {
+				ExportDNAGedcomMenu.Dispose ();
+				ExportDNAGedcomMenu = null;
 			}
 
 			if (ExportFactsMenu != null) {
@@ -125,19 +130,19 @@ namespace FTAnalyzer
 				ExportFactsMenu = null;
 			}
 
+			if (ExportFamiliesMenu != null) {
+				ExportFamiliesMenu.Dispose ();
+				ExportFamiliesMenu = null;
+			}
+
+			if (ExportIndividualsMenu != null) {
+				ExportIndividualsMenu.Dispose ();
+				ExportIndividualsMenu = null;
+			}
+
 			if (ExportLocationsMenu != null) {
 				ExportLocationsMenu.Dispose ();
 				ExportLocationsMenu = null;
-			}
-
-			if (ExportSourcesMenu != null) {
-				ExportSourcesMenu.Dispose ();
-				ExportSourcesMenu = null;
-			}
-
-			if (ExportDataErrorsMenu != null) {
-				ExportDataErrorsMenu.Dispose ();
-				ExportDataErrorsMenu = null;
 			}
 
 			if (ExportLooseBirthsMenu != null) {
@@ -150,9 +155,19 @@ namespace FTAnalyzer
 				ExportLooseDeathsMenu = null;
 			}
 
-			if (ExportDNAGedcomMenu != null) {
-				ExportDNAGedcomMenu.Dispose ();
-				ExportDNAGedcomMenu = null;
+			if (ExportSourcesMenu != null) {
+				ExportSourcesMenu.Dispose ();
+				ExportSourcesMenu = null;
+			}
+
+			if (PageSetupMenu != null) {
+				PageSetupMenu.Dispose ();
+				PageSetupMenu = null;
+			}
+
+			if (PrintMenu != null) {
+				PrintMenu.Dispose ();
+				PrintMenu = null;
 			}
 		}
 	}
